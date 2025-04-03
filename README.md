@@ -1,4 +1,4 @@
-# arcore_app
+# qrview
 
 A new Flutter project.
 

@@ -1,6 +1,6 @@
 {
-    "name": "arcore_app",
-    "short_name": "arcore_app",
+    "name": "qrview",
+    "short_name": "qrview",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
