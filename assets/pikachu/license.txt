@@ -1,0 +1,11 @@
+Model Information:
+* title:	Pikachu
+* source:	https://sketchfab.com/3d-models/pikachu-37c740f674cd4719a1d1d2970bbe8c30
+* author:	Raghav Gupta (https://sketchfab.com/raghav-wd)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Pikachu" (https://sketchfab.com/3d-models/pikachu-37c740f674cd4719a1d1d2970bbe8c30) by Raghav Gupta (https://sketchfab.com/raghav-wd) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
