@@ -1,150 +1,165 @@
 import 'package:flutter/material.dart';
-import 'package:vector_math/vector_math_64.dart' as vector_math;
-import 'package:ar_flutter_plugin_2/ar_flutter_plugin.dart';
-import 'package:ar_flutter_plugin_2/models/ar_node.dart';
-import 'package:ar_flutter_plugin_2/models/ar_anchor.dart';
-import 'package:ar_flutter_plugin_2/models/ar_hittest_result.dart';
-import 'package:ar_flutter_plugin_2/datatypes/node_types.dart';
-import 'package:ar_flutter_plugin_2/datatypes/hittest_result_types.dart';
-import 'package:ar_flutter_plugin_2/datatypes/config_planedetection.dart';
-import 'package:ar_flutter_plugin_2/managers/ar_session_manager.dart';
-import 'package:ar_flutter_plugin_2/managers/ar_object_manager.dart';
-import 'package:ar_flutter_plugin_2/managers/ar_anchor_manager.dart';
-import 'package:ar_flutter_plugin_2/managers/ar_location_manager.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
+import 'package:flutter/material.dart';
+import 'package:vector_math/vector_math_64.dart' as vector;
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Eevee AR',
+      title: 'QR Code Scanner',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primarySwatch: Colors.blue,
       ),
-      home: const EeveeARView(),
+      home: MyHomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class EeveeARView extends StatefulWidget {
-  const EeveeARView({super.key});
-
+class MyHomePage extends StatefulWidget {
   @override
-  State<EeveeARView> createState() => _EeveeARViewState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _EeveeARViewState extends State<EeveeARView> {
-  ARSessionManager? arSessionManager;
-  ARObjectManager? arObjectManager;
-  ARAnchorManager? arAnchorManager;
-
-  ARAnchor? eeveeAnchor;
-  ARNode? eeveeNode;
-  bool eeveeAdicionado = false;
+class _MyHomePageState extends State<MyHomePage> {
+  late ArCoreController arCoreController;
+  final GlobalKey qrKey = GlobalKey();
+  QRViewController? controller;
+  bool isImageVisible = false;
 
   @override
-  void dispose() {
-    arSessionManager?.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _checkCameraPermission();
+  }
+
+  // Solicita permissão para acessar a câmera
+  Future<void> _checkCameraPermission() async {
+    var status = await Permission.camera.status;
+    if (!status.isGranted) {
+      await Permission.camera.request();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Eevee AR')),
-      body: Stack(
-        children: [
-          ARView(
-            onARViewCreated: onARViewCreated,
-            planeDetectionConfig: PlaneDetectionConfig.horizontalAndVertical,
-          ),
-          Positioned(
-            bottom: 20,
-            right: 20,
-            child: Visibility(
-              visible: eeveeAdicionado,
-              child: FloatingActionButton.small(
-                onPressed: removerEevee,
-                tooltip: 'Remover Eevee',
-                child: const Icon(Icons.delete),
+      appBar: AppBar(title: Text("QR Code Scanner")),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            flex: 5,
+            child: QRView(
+              key: qrKey,
+              onQRViewCreated: _onQRViewCreated,
+              overlay: QrScannerOverlayShape(
+                borderColor: Colors.red,
+                borderRadius: 10,
+                borderLength: 30,
+                borderWidth: 10,
+                cutOutSize: 300,
               ),
             ),
           ),
+          if (isImageVisible) 
+            Expanded(
+              flex: 2,
+              child: Center(
+                child: ArCoreView(
+                  onArCoreViewCreated: _onArCoreViewCreated,
+                ), // Exibe a imagem
+              ),
+            ),
         ],
       ),
     );
   }
 
-  void onARViewCreated(
-    ARSessionManager arSessionManager,
-    ARObjectManager arObjectManager,
-    ARAnchorManager arAnchorManager,
-    ARLocationManager arLocationManager,
-  ) {
-    this.arSessionManager = arSessionManager;
-    this.arObjectManager = arObjectManager;
-    this.arAnchorManager = arAnchorManager;
+  // Função que é chamada quando o QR Code é detectado
+  void _onQRViewCreated(QRViewController ctrl) {
+    controller = ctrl;
+    controller!.scannedDataStream.listen((scanData) {
+      final code = scanData.code;
+      print("QR Code detectado: $code");
 
-    arSessionManager.onInitialize(
-      showFeaturePoints: false,
-      showPlanes: true,
-      showWorldOrigin: false,
-    );
+      // Verifica se o QR code lido é "mostrar_imagem"
+      // && code.trim() == "mostrar_imagem"
+      if (code != null ) {
+        setState(() {
+          isImageVisible = true;  // Altera o estado para mostrar a imagem
+        });
 
-    arObjectManager.onInitialize();
-
-    arSessionManager.onPlaneOrPointTap = onPlaneTapped;
-  }
-
-  Future<void> onPlaneTapped(List<ARHitTestResult> hits) async {
-    if (eeveeAdicionado) return;
-
-    final hit = hits.firstWhere(
-      (r) => r.type == ARHitTestResultType.plane,
-      orElse: () => hits.first,
-    );
-
-    final anchor = ARPlaneAnchor(transformation: hit.worldTransform);
-    final didAddAnchor = await arAnchorManager!.addAnchor(anchor);
-    if (didAddAnchor != true) return;
-
-    final node = ARNode(
-      type: NodeType.localGLTF2,
-      uri: "assets/eevee/scene.gltf",
-      scale: vector_math.Vector3(0.5, 0.5, 0.5),
-      position: vector_math.Vector3(0.0, 0.0, 0.0),
-      rotation: vector_math.Vector4(0.0, 1.0, 0.0, 0.0),
-    );
-
-    final didAddNode = await arObjectManager!.addNode(node, planeAnchor: anchor);
-    if (didAddNode != true) return;
-
-    setState(() {
-      eeveeAdicionado = true;
-      eeveeAnchor = anchor;
-      eeveeNode = node;
+        // Atraso de 2 segundos antes de pausar a câmera
+        Future.delayed(Duration(seconds: 2), () {
+          controller?.pauseCamera(); // Pausa a câmera após ler o QR Code
+        });
+      }
     });
   }
 
-  Future<void> removerEevee() async {
-    if (eeveeNode != null) {
-      await arObjectManager!.removeNode(eeveeNode!);
-    }
-    if (eeveeAnchor != null) {
-      await arAnchorManager!.removeAnchor(eeveeAnchor!);
-    }
+ void _onArCoreViewCreated(ArCoreController controller) {
+    arCoreController = controller;
 
-    setState(() {
-      eeveeAdicionado = false;
-      eeveeNode = null;
-      eeveeAnchor = null;
-    });
+    _addSphere(arCoreController);
+    _addCylindre(arCoreController);
+    _addCube(arCoreController);
+  }
+
+  void _addSphere(ArCoreController controller) {
+    final material = ArCoreMaterial(
+        color: Color.fromARGB(120, 66, 134, 244));
+    final sphere = ArCoreSphere(
+      materials: [material],
+      radius: 0.1,
+    );
+    final node = ArCoreNode(
+      shape: sphere,
+      position: vector.Vector3(0, 0, -1.5),
+    );
+    controller.addArCoreNode(node);
+  }
+
+  void _addCylindre(ArCoreController controller) {
+    final material = ArCoreMaterial(
+      color: Colors.red,
+      reflectance: 1.0,
+    );
+    final cylindre = ArCoreCylinder(
+      materials: [material],
+      radius: 0.5,
+      height: 0.3,
+    );
+    final node = ArCoreNode(
+      shape: cylindre,
+      position: vector.Vector3(0.0, -0.5, -2.0),
+    );
+    controller.addArCoreNode(node);
+  }
+
+  void _addCube(ArCoreController controller) {
+    final material = ArCoreMaterial(
+      color: Color.fromARGB(120, 66, 134, 244),
+      metallic: 1.0,
+    );
+    final cube = ArCoreCube(
+      materials: [material],
+      size: vector.Vector3(0.5, 0.5, 0.5),
+    );
+    final node = ArCoreNode(
+      shape: cube,
+      position: vector.Vector3(-0.5, 0.5, -3.5),
+    );
+    controller.addArCoreNode(node);
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 }

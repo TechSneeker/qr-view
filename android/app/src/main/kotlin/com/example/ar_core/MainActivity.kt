@@ -1,4 +1,4 @@
-package com.example.qrview
+package com.example.ar_core
 
 import io.flutter.embedding.android.FlutterActivity
 

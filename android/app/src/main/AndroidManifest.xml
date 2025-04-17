@@ -1,12 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- "AR Required" apps must declare minSdkVersion ≥ 24 -->
+    <uses-sdk android:minSdkVersion="24" />
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-feature android:name="android.hardware.camera.ar" android:required="true"/>
-    
+
+    <!-- Indicates that app requires ARCore ("AR Required"). Ensures app is only
+        visible in the Google Play Store on devices that support ARCore.
+    -->
+    <uses-feature android:name="android.hardware.camera.ar" />
     <application
-        android:label="qrview"
+        android:label="ar_core"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -36,6 +39,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- "AR Required" app, requires "Google Play Services for AR" (ARCore)
+         to be installed, as the app does not include any non-AR features. -->
+        <!-- <meta-data android:name="com.google.ar.core" android:value="required" /> -->
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
