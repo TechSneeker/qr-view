@@ -25,7 +25,35 @@ final Map<String, Map<String, dynamic>> qrToPokemonData = {
   'eevee': {
     'asset': 'assets/eevee/scene.gltf',
     'score': 100,
-  }
+  },
+  'espeon': {
+    'asset': 'assets/espeon/scene.gltf',
+    'score': 100,
+  },
+  'flareon': {
+    'asset': 'assets/flareon/scene.gltf',
+    'score': 100,
+  },
+  'glaceon': {
+    'asset': 'assets/glaceon/scene.gltf',
+    'score': 100,
+  },
+  'jolteon': {
+    'asset': 'assets/jolteon/scene.gltf',
+    'score': 100,
+  },
+  'leafeon': {
+    'asset': 'assets/leafeon/scene.gltf',
+    'score': 100,
+  },
+  'umbreon': {
+    'asset': 'assets/umbreon/scene.gltf',
+    'score': 100,
+  },
+  'vaporeon': {
+    'asset': 'assets/vaporeon/scene.gltf',
+    'score': 100,
+  },
 };
 
 void main() {
