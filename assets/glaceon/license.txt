@@ -1,0 +1,11 @@
+Model Information:
+* title:	Pokedex 3d Pro Glaceon
+* source:	https://sketchfab.com/3d-models/pokedex-3d-pro-glaceon-5c54cd2360f247eb9b976ddec6a478ca
+* author:	seth the yutyrannus (https://sketchfab.com/slang107123456789)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Pokedex 3d Pro Glaceon" (https://sketchfab.com/3d-models/pokedex-3d-pro-glaceon-5c54cd2360f247eb9b976ddec6a478ca) by seth the yutyrannus (https://sketchfab.com/slang107123456789) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -117,7 +117,7 @@ class _EeveeARViewState extends State<EeveeARView> {
 
     final node = ARNode(
       type: NodeType.localGLTF2,
-      uri: "assets/eevee/scene.gltf",
+      uri: "assets/espeon/scene.gltf",
       scale: vector_math.Vector3(0.5, 0.5, 0.5),
       position: vector_math.Vector3(0.0, 0.0, 0.0),
       rotation: vector_math.Vector4(0.0, 1.0, 0.0, 0.0),

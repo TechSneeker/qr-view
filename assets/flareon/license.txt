@@ -1,0 +1,11 @@
+Model Information:
+* title:	Pokedex 3d Pro Flareon
+* source:	https://sketchfab.com/3d-models/pokedex-3d-pro-flareon-c809b5ce54224bc1a660e943f681a822
+* author:	seth the yutyrannus (https://sketchfab.com/slang107123456789)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Pokedex 3d Pro Flareon" (https://sketchfab.com/3d-models/pokedex-3d-pro-flareon-c809b5ce54224bc1a660e943f681a822) by seth the yutyrannus (https://sketchfab.com/slang107123456789) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

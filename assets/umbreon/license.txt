@@ -1,0 +1,11 @@
+Model Information:
+* title:	Pokedex 3d Pro Umbreon
+* source:	https://sketchfab.com/3d-models/pokedex-3d-pro-umbreon-8fda51cf8e664142ae6f037b68993fcb
+* author:	seth the yutyrannus (https://sketchfab.com/slang107123456789)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Pokedex 3d Pro Umbreon" (https://sketchfab.com/3d-models/pokedex-3d-pro-umbreon-8fda51cf8e664142ae6f037b68993fcb) by seth the yutyrannus (https://sketchfab.com/slang107123456789) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
