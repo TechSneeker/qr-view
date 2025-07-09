@@ -18,7 +18,6 @@ Este app permite escanear QR Codes e, dependendo do conteúdo lido, renderiza um
 - **Dispositivo Android compatível com ARCore**
   - [Veja a lista de dispositivos compatíveis](https://developers.google.com/ar/devices)
   - **Emuladores não suportam AR**
-- **ARCore** instalado no dispositivo (baixe pela [Play Store](https://play.google.com/store/apps/details?id=com.google.ar.core))
 
 ---
 
